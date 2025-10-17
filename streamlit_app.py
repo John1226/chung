@@ -3,6 +3,15 @@ from langchain.chains import LLMChain
 from langchain_openai import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
 
+# ==================== API密钥安全检查 ====================
+if 'OPENAI_API_KEY' in st.secrets:
+    api_key = st.secrets['OPENAI_API_KEY']
+    st.success("✅ API密钥加载成功")
+else:
+    st.error("❌ 请在Streamlit Cloud的Secrets中配置API密钥")
+    st.stop()  # 没有密钥就停止执行
+# =======================================================
+
 # 设置网页标题和图标
 st.set_page_config(page_title="英文表达参考助手", page_icon="🌍")
 st.title("🌍 英文表达参考助手")
@@ -109,9 +118,9 @@ def generate_expression_reference(user_input, style_preference):
     # 获取提示词模板和风格说明
     prompt_template, style_instruction = get_expression_prompt(style_preference)
     
-    # 创建模型客户端
+    # 创建模型客户端 - 使用安全的api_key变量
     client = ChatOpenAI(
-        api_key="sk-30e89bd0b2df4844a924ae6920aa15dc",
+        api_key=api_key,  # ← 改为使用上面定义的api_key变量
         model="deepseek-chat",
         base_url="https://api.deepseek.com",
         temperature=0.3,  # 稍高的温度以获得更多创造性表达
