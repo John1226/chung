@@ -13,20 +13,21 @@ else:
 # =======================================================
 
 # ==================== 调试信息 ====================
-import os
-st.sidebar.write("🔍 调试信息:")
-st.sidebar.write(f"Secrets keys: {list(st.secrets.keys())}")
+
+#import os
+#st.sidebar.write("🔍 调试信息:")
+#st.sidebar.write(f"Secrets keys: {list(st.secrets.keys())}")
 
 # 检查环境变量
-env_keys = [k for k in os.environ.keys() if 'API' in k or 'KEY' in k]
-st.sidebar.write(f"相关环境变量: {env_keys}")
+# env_keys = [k for k in os.environ.keys() if 'API' in k or 'KEY' in k]
+# st.sidebar.write(f"相关环境变量: {env_keys}")
 
-if 'OPENAI_API_KEY' in st.secrets:
-    api_key = st.secrets['OPENAI_API_KEY']
-    key_preview = api_key[:8] + "..." + api_key[-4:] if api_key and len(api_key) > 12 else "空"
-    st.sidebar.write(f"密钥预览: {key_preview}")
-else:
-    st.sidebar.write("❌ OPENAI_API_KEY 不存在于 secrets")
+# if 'OPENAI_API_KEY' in st.secrets:
+#     api_key = st.secrets['OPENAI_API_KEY']
+#     key_preview = api_key[:8] + "..." + api_key[-4:] if api_key and len(api_key) > 12 else "空"
+#     st.sidebar.write(f"密钥预览: {key_preview}")
+# else:
+#     st.sidebar.write("❌ OPENAI_API_KEY 不存在于 secrets")
 # =================================================
 
 
