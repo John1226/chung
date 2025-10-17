@@ -1,11 +1,3 @@
-# 在你的 streamlit_app.py 中临时修改
-import streamlit as st
-
-st.error("🚨 安全警报：API密钥可能已泄露，应用暂时停用")
-st.stop()
-
-# 注释掉原来的代码，防止继续使用泄露的密钥
-
 import streamlit as st
 from langchain.chains import LLMChain
 from langchain_openai import ChatOpenAI
