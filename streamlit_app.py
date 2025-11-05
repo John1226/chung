@@ -1,7 +1,6 @@
 import streamlit as st
-from langchain.chains import LLMChain
 from langchain_openai import ChatOpenAI
-from langchain.prompts import ChatPromptTemplate
+from langchain_core.prompts import ChatPromptTemplate
 
 # ==================== API密钥安全检查 ====================
 if 'OPENAI_API_KEY' in st.secrets:
@@ -138,21 +137,25 @@ def generate_expression_reference(user_input, style_preference):
     prompt_template, style_instruction = get_expression_prompt(style_preference)
     
     # 创建模型客户端 - 使用安全的api_key变量
-    client = ChatOpenAI(
+    llm = ChatOpenAI(
         api_key=api_key,  # ← 改为使用上面定义的api_key变量
         model="deepseek-chat",
         base_url="https://api.deepseek.com",
         temperature=0.3,  # 稍高的温度以获得更多创造性表达
     )
     
-    # 创建对话链
-    chain = LLMChain(llm=client, prompt=prompt_template)
+    # 使用 LCEL (LangChain Expression Language) 创建链
+    chain = prompt_template | llm
     
     # 生成回复
-    response = chain.run(
-        input=user_input,
-        style_instruction=style_instruction
-    )
+    response = chain.invoke({
+        "input": user_input,
+        "style_instruction": style_instruction
+    })
+    
+    # 提取消息内容
+    if hasattr(response, 'content'):
+        response = response.content
     
     return response
 
